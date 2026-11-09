@@ -1,0 +1,48 @@
+RESUMEN DEL DATAFRAME PREPARADO
+========================================
+Filas: 3755
+Columnas: 12
+Filas repetidas: 1171
+
+Columnas y tipos:
+- work_year: int64
+- experience_level: object
+- employment_type: object
+- job_title: object
+- salary: int64
+- salary_currency: object
+- salary_in_usd: int64
+- employee_residence: object
+- remote_ratio: int64
+- company_location: object
+- company_size: object
+- remote_work_mode: object
+
+Valores nulos por columna:
+- work_year: 0
+- experience_level: 0
+- employment_type: 0
+- job_title: 0
+- salary: 0
+- salary_currency: 0
+- salary_in_usd: 0
+- employee_residence: 0
+- remote_ratio: 0
+- company_location: 0
+- company_size: 0
+- remote_work_mode: 0
+
+Estadísticas descriptivas:
+                     count unique              top  freq           mean            std     min       25%       50%       75%         max
+work_year           3755.0    NaN              NaN   NaN    2022.373635       0.691448  2020.0    2022.0    2022.0    2023.0      2023.0
+experience_level      3755      4           Senior  2516            NaN            NaN     NaN       NaN       NaN       NaN         NaN
+employment_type       3755      4  Tiempo completo  3718            NaN            NaN     NaN       NaN       NaN       NaN         NaN
+job_title             3755     93    Data Engineer  1040            NaN            NaN     NaN       NaN       NaN       NaN         NaN
+salary              3755.0    NaN              NaN   NaN  190695.571771  671676.500508  6000.0  100000.0  138000.0  180000.0  30400000.0
+salary_currency       3755     20              USD  3224            NaN            NaN     NaN       NaN       NaN       NaN         NaN
+salary_in_usd       3755.0    NaN              NaN   NaN   137570.38988   63055.625278  5132.0   95000.0  135000.0  175000.0    450000.0
+employee_residence    3755     78               US  3004            NaN            NaN     NaN       NaN       NaN       NaN         NaN
+remote_ratio        3755.0    NaN              NaN   NaN      46.271638       48.58905     0.0       0.0       0.0     100.0       100.0
+company_location      3755     72               US  3040            NaN            NaN     NaN       NaN       NaN       NaN         NaN
+company_size          3755      3          Mediana  3153            NaN            NaN     NaN       NaN       NaN       NaN         NaN
+remote_work_mode      3755      3       Presencial  1923            NaN            NaN     NaN       NaN       NaN       NaN         NaN

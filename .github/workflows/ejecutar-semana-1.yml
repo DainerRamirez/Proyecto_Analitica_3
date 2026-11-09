@@ -1,0 +1,97 @@
+name: Ejecutar entregas 1, 2 y 3
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ejecutar-entregas-main
+  cancel-in-progress: false
+
+jobs:
+  ejecutar-notebooks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Crear entorno virtual
+        run: python -m venv .venv
+
+      - name: Instalar dependencias
+        run: |
+          source .venv/bin/activate
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install -r requirements.txt
+          .venv/bin/python -m pip install pyarrow openpyxl
+
+      - name: Limpiar datos y reportes de Semana 1
+        run: |
+          mkdir -p src/sincronicas/datos src/sincronicas/reportes
+          find src/sincronicas/datos -mindepth 1 -delete
+          find src/sincronicas/reportes -mindepth 1 -delete
+
+      - name: Ejecutar Semana_1SINC.ipynb
+        working-directory: src/sincronicas
+        run: |
+          source ../../.venv/bin/activate
+          jupyter nbconvert \
+            --to notebook \
+            --execute \
+            --inplace \
+            --ExecutePreprocessor.timeout=1800 \
+            Semana_1SINC.ipynb
+
+      - name: Ejecutar Semana_2EA2.ipynb
+        working-directory: src/Entrega_2
+        run: |
+          source ../../.venv/bin/activate
+          jupyter nbconvert \
+            --to notebook \
+            --execute \
+            --inplace \
+            --ExecutePreprocessor.timeout=1800 \
+            Semana_2EA2.ipynb
+
+      - name: Ejecutar Semana_3_AE3.ipynb
+        working-directory: src/Entrega_3
+        run: |
+          source ../../.venv/bin/activate
+          jupyter nbconvert \
+            --to notebook \
+            --execute \
+            --inplace \
+            --ExecutePreprocessor.timeout=1800 \
+            Semana_3_AE3.ipynb
+
+      - name: Confirmar cambios generados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add README.md requirements.txt
+          git add src/sincronicas
+          git add src/Entrega_2
+          git add src/Entrega_3
+
+          if git diff --cached --quiet; then
+            echo "No se generaron cambios."
+            exit 0
+          fi
+
+          git commit -m "chore: actualizar resultados de entregas 1, 2 y 3 [skip ci]"
+          git push origin HEAD:main
